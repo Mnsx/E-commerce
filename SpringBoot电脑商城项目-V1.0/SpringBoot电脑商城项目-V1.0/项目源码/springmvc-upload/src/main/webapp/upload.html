@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>文件上传</title>
+</head>
+<body>
+    <h3>文件上传</h3>
+    <!-- enctype属性：规定表单中数据在提交给服务器之前如何进行编码。默认表单数据的编码是"application/x-www-form-urlencoded"。
+         application/x-www-form-urlencoded：提交前表单中所有数据都会进行编码；编码的规则是：空格转换为"+"加号，特殊符号转换为ASCII HEX值
+         text/plain：提交前表单中数据空格转换为"+"加号，但不对特殊字符进行编码。
+         multipart/form-data：提交前表单中不对字符进行编码；在使用包含文件上传控件的表单中，必须使用该值
+    -->
+    <form action="upload.do" method="post" enctype="multipart/form-data">
+        <table border="1" cellspacing="0" cellpadding="0">
+            <tr>
+                <td>文件名(N)：</td>
+                <td><input type="file" name="file" /></td>
+            </tr>
+            <tr>
+                <td colspan="2" align="center"><input type="submit" value="上传" /></td>
+            </tr>
+        </table>
+    </form>
+</body>
+</html>
