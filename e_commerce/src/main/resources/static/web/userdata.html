@@ -141,19 +141,19 @@
 							<div class="form-group">
 								<label class="col-md-2 control-label">用户名：</label>
 								<div class="col-md-8">
-									<input id="username" type="text" class="form-control" value="孙悟空" readonly="readonly">
+									<input id="username" type="text" class="form-control" value="" readonly="readonly">
 								</div>
 							</div>
 							<div class="form-group">
 								<label class="col-md-2 control-label">电话号码：</label>
 								<div class="col-md-8">
-									<input `id="phone" name="phone" type="text" class="form-control" placeholder="请输入电话号码" value="13311311313">
+									<input id="phone" name="phone" type="text" class="form-control" placeholder="请输入电话号码" value="">
 								</div>
 							</div>
 							<div class="form-group">
 								<label class="col-md-2 control-label">电子邮箱：</label>
 								<div class="col-md-8">
-									<input id="email" name="email" type="text" class="form-control" placeholder="请输入电子邮箱" value="sunwk@qq.com">
+									<input id="email" name="email" type="text" class="form-control" placeholder="请输入电子邮箱" value="">
 								</div>
 							</div>
 							<div class="form-group">
@@ -262,6 +262,50 @@
 			</div>
 		</footer>
 		<!--页脚结束-->
+		<script type="text/javascript">
+			$("#btn-change-info").click(function() {
+				$.ajax({
+					url: "/users/change_info",
+					type: "GET",
+					data: $("#form-change-info").serialize(),
+					dataType: "JSON",
+					success: function(json) {
+						if(json.state === 200){
+							alert("用户信息修改成功")
+							location.href="userdata.html";
+						}else{
+							alert("用户信息修改失败");
+						}
+					},
+					error: function(xhr) {
+						alert("用户信息修改时产生未知的异常" + xhr.message);
+					}
+				})
+			})
+
+			$(document).ready(function() {
+				$.ajax({
+					url: "/users/get_by_uid",
+					type: "GET",
+					data: $("#form-change-info").serialize(),
+					dataType: "JSON",
+					success: function(json) {
+						if(json.state === 200){
+							$("#username").val(json.data.username);
+							$("#phone").val(json.data.phone);
+							$("#email").val(json.data.email);
+							let radio = json.data.gender === 0 ? $("#gender-female") : $("#gender-male");
+							radio.prop("checked", "checked");
+						}else{
+							alert("用户数据不存在");
+						}
+					},
+					error: function(xhr) {
+						alert("查询用户信息产生未知的异常" + xhr.message);
+					}
+				})
+			})
+		</script>
 	</body>
 
 </html>

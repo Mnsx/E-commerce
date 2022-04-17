@@ -38,5 +38,26 @@
     <select id="findByUid" resultMap="UserEntityMap">
         SELECT * FROM t_user WHERE uid = #{uid}
     </select>
+
+    <update id="updateInfoByUid">
+        UPDATE t_user
+        SET
+        <if test="phone != null">phone = #{phone},</if>
+        <if test="email != null">email = #{email},</if>
+        <if test="gender != null">gender = #{gender},</if>
+        modified_time = #{modifiedTime},
+        modified_user = #{modifiedUser}
+        WHERE uid = #{uid}
+    </update>
+
+    <update id="updateAvatarByUid">
+        UPDATE t_user
+        SET
+            avatar = #{avatar},
+            modified_user = #{modifiedUser},
+            modified_time = #{modifiedTime}
+        WHERE
+            uid = #{uid}
+    </update>
 </mapper>   
  

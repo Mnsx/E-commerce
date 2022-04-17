@@ -1,5 +1,6 @@
 package top.mnsx.store.dao;
 
+import org.apache.ibatis.annotations.Param;
 import top.mnsx.store.entity.User;
 
 import java.util.Date;
@@ -38,4 +39,13 @@ public interface UserMapper {
     * @return 如果找到则返回对象，反之返回null
     */
    User findByUid(Integer uid);
+
+   /**
+    * 更新用户的数据信息
+    * @param user 用户的数据
+    * @return 返回值为受影响的行数
+    */
+   Integer updateInfoByUid(User user);
+
+   Integer updateAvatarByUid(@Param("uid") Integer uid, @Param("avatar") String avatar, @Param("modifiedUser") String modifiedUser, @Param("modifiedTime") Date modifiedTime);
 }

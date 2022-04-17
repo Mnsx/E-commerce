@@ -41,4 +41,24 @@ public class UserServiceTests {
     public void testChangePassword(){
         userService.changePassword(7, "mnsx", "123123", "123456");
     }
+
+    @Test
+    public void testChangeInfo(){
+        User user = new User();
+        user.setUid(7);
+        user.setPhone("120");
+        user.setEmail("120@163.com");
+        user.setGender(1);
+        userService.changeInfo(7, "mnsx", user);
+    }
+
+    @Test
+    public void testGetByUid(){
+        System.out.println(userService.getByUid(7));
+    }
+
+    @Test
+    public void changeAvatar() {
+        userService.changeAvatar(7, "/upload/test.png", "mnsx");
+    }
 }

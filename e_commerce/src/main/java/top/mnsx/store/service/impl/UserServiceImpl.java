@@ -116,4 +116,46 @@ public class UserServiceImpl implements IUserService {
         //返回加密后的密码
         return password;
     }
+
+    @Override
+    public User getByUid(Integer uid) {
+        User result = userMapper.findByUid(uid);
+        if(result == null || result.getIsDelete() == 1){
+            throw new UserNotFoundException("用户数据不存在");
+        }
+        User user = new User();
+        user.setUsername(result.getUsername());
+        user.setPhone(result.getPhone());
+        user.setEmail(result.getEmail());
+        user.setGender(result.getGender());
+        return user;
+    }
+
+    @Override
+    public void changeInfo(Integer uid, String username, User user) {
+        User result = userMapper.findByUid(uid);
+        if(result == null || result.getIsDelete() == 1){
+            throw new UserNotFoundException("用户数据不存在");
+        }
+        user.setUid(uid);
+        user.setModifiedUser(username);
+        user.setModifiedTime(new Date());
+
+        Integer rows = userMapper.updateInfoByUid(user);
+        if(rows != 1) {
+            throw new UpdateException("更新数据时产生未知的异常");
+        }
+    }
+
+    @Override
+    public void changeAvatar(Integer uid, String avatar, String username) {
+        User result = userMapper.findByUid(uid);
+        if(result == null || result.getIsDelete() == 1){
+            throw new UserNotFoundException("用户数据不存在");
+        }
+        Integer rows = userMapper.updateAvatarByUid(uid, avatar, username, new Date());
+        if(rows != 1) {
+            throw new UpdateException("更新用户头像时产生未知异常");
+        }
+    }
 }
