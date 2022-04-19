@@ -16,6 +16,7 @@
 		<!-- 字体图标 -->
 		<link rel="stylesheet" href="../bootstrap3/font-awesome-4.7.0/css/font-awesome.css" />
 		<link rel="stylesheet" type="text/css" href="../css/layout.css" />
+		<script src="../bootstrap3/js/jquery.cookie.js" type="text/javascript" charset="utf-8"></script>
 		<link rel="stylesheet" type="text/css" href="../css/top.css" />
 		<link rel="stylesheet" type="text/css" href="../css/footer.css" />
 	</head>
@@ -136,7 +137,7 @@
 					</ul>
 					<div class="panel-body">
 						<!--上传头像表单开始-->
-						<form class="form-horizontal" role="form">
+						<form id="form-change-avatar" class="form-horizontal" role="form">
 							<div class="form-group">
 								<label class="col-md-2 control-label">选择头像:</label>
 								<div class="col-md-5">
@@ -149,7 +150,7 @@
 							</div>
 							<div class="form-group">
 								<div class="col-sm-offset-2 col-sm-10">
-									<input type="submit" class="btn btn-primary" value="上传" />
+									<input id="btn-change-avatar" type="button" class="btn btn-primary" value="上传" />
 								</div>
 							</div>
 						</form>
@@ -242,6 +243,34 @@
 			</div>
 		</footer>
 		<!--页脚结束-->
+		<script type="text/javascript">
+			$(document).ready(function() {
+				let avatar = $.cookie("avatar");
+				$("#img-avatar").attr("src", avatar);
+			})
+			$("#btn-change-avatar").click(function(){
+				$.ajax({
+					url: "/users/change_avatar",
+					type: "POST",
+					data: new FormData($("#form-change-avatar")[0]),
+					dataType: "JSON",
+					processData: false,
+					contentType: false,
+					success: function(json) {
+						if(json.state === 200){
+							alert("头像修改成功");
+							$("#img-avatar").attr("src", json.data);
+							$.cookie("avatar", json.data)
+						}else{
+							alert("头像修改失败");
+						}
+					},
+					error: function(xhr) {
+						alert("修改头像时产生未知的异常" + xhr.message);
+					}
+				})
+			})
+		</script>
 	</body>
 
 </html>
