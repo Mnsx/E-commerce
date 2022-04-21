@@ -28,4 +28,9 @@ public class AddressMapperTests {
             System.out.println(e.getMessage());
         }
     }
+
+    @Test
+    public void testSetDefault() {
+        addressService.setDefault(5, 10, "mnsx");
+    }
 }

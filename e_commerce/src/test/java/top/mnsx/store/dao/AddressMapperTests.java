@@ -7,6 +7,7 @@ import top.mnsx.store.entity.Address;
 import top.mnsx.store.entity.User;
 
 import java.util.Date;
+import java.util.List;
 
 @SpringBootTest
 public class AddressMapperTests {
@@ -25,9 +26,30 @@ public class AddressMapperTests {
     }
 
     @Test
-    public void countByUid() {
+    public void testCountByUid() {
         Integer uid = 10;
         Integer count = addressMapper.countByUid(uid);
         System.out.println("count=" + count);
+    }
+
+    @Test
+    public void testFindByUid() {
+        List<Address> list = addressMapper.findByUid(10);
+        System.out.println(list);
+    }
+
+    @Test
+    public void testFindByAid() {
+        System.out.println(addressMapper.findByAid(4));
+    }
+
+    @Test
+    public void testUpdateNonDefault() {
+        addressMapper.updateNonDefault(10);
+    }
+
+    @Test
+    public void testUpdateDefaultByAid() {
+        addressMapper.updateDefaultByAid(6, "Mnsx_x", new Date());
     }
 }
