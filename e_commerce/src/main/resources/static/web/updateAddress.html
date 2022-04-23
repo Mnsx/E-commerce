@@ -290,10 +290,29 @@
 		<script type="text/javascript">
 			let defaultOption = "<option value='0'>--- 请选择 ---</option>";
 			$(document).ready(function(){
-				$("#province-list").append(defaultOption);
+				let aid = window.localStorage.getItem("aid");
+				$.ajax({
+					url: "/addresses/findByAid/" + aid,
+					type: "GET",
+					dataType: "JSON",
+					success: function (json) {
+						if (json.state === 200) {
+							console.log(json.data);
+							document.getElementsByClassName("form-control").item(1).value = json.data.name;
+							$("#province-list").append("<option value='0'>" + json.data.provinceName + "(默认)</option>");
+							$("#city-list").append("<option value='0'>" + json.data.cityName + "(默认)</option>");
+							$("#area-list").append("<option value='0'>" + json.data.areaName + "(默认)</option>");
+							document.getElementsByClassName("form-control").item(5).value = json.data.zip;
+							document.getElementsByClassName("form-control").item(6).value = json.data.address;
+							document.getElementsByClassName("form-control").item(7).value = json.data.phone;
+							document.getElementsByClassName("form-control").item(8).value = json.data.tel;
+							document.getElementsByClassName("form-control").item(9).value = json.data.tag;
+						} else {
+							alert("收货地址数据加载失败");
+						}
+					}
+				});
 				showProvince();
-				$("#city-list").append(defaultOption);
-				$("#area-list").append(defaultOption);
 			})
 
 			$("#province-list").change(function() {

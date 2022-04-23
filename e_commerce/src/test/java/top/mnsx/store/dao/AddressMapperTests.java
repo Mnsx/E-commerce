@@ -52,4 +52,15 @@ public class AddressMapperTests {
     public void testUpdateDefaultByAid() {
         addressMapper.updateDefaultByAid(6, "Mnsx_x", new Date());
     }
+
+    @Test
+    public void testDeleteByAid() {
+        addressMapper.deleteByAid(5);
+    }
+
+    @Test
+    public void testFindLastModified() {
+        Address list = addressMapper.findLastModified(10);
+        System.out.println(list);
+    }
 }

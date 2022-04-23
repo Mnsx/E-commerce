@@ -7,7 +7,7 @@ import top.mnsx.store.entity.Address;
 import top.mnsx.store.service.ex.ServiceException;
 
 @SpringBootTest
-public class AddressMapperTests {
+public class AddressServiceTests {
     @Autowired
     private IAddressService addressService;
 
@@ -32,5 +32,16 @@ public class AddressMapperTests {
     @Test
     public void testSetDefault() {
         addressService.setDefault(5, 10, "mnsx");
+    }
+
+    @Test
+    public void testDelete() {
+        addressService.delete(4, 10, "mnsx");
+    }
+
+    @Test
+    public void testGetByAid() {
+        Address address = addressService.getByAid(7);
+        System.out.println(address);
     }
 }

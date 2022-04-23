@@ -43,5 +43,26 @@ public interface AddressMapper {
      */
     Integer updateNonDefault(Integer uid);
 
+    /**
+     * 设置指定收货地址为用户的默认地址
+     * @param aid 收货地址
+     * @param modifiedUser 修改者
+     * @param modifiedTime 修改时间
+     * @return 返回受影响的行数
+     */
     Integer updateDefaultByAid(@Param("aid")Integer aid, @Param("modifiedUser")String modifiedUser, @Param("modifiedTime")Date modifiedTime);
+
+    /**
+     * 通过收货地址Id删除地址数据
+     * @param aid 收货地址id
+     * @return 返回受影响的行数
+     */
+    Integer deleteByAid(Integer aid);
+
+    /**
+     * 根据用户id查询当前用户最后一次被修改的收货地址数据
+     * @param uid 用户id
+     * @return 收货地址
+     */
+    Address findLastModified(Integer uid);
 }

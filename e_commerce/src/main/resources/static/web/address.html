@@ -246,17 +246,16 @@
 		<script type="text/javascript">
 			$(document).ready(function() {
 				showAddressList();
-				console.log("start");
 			});
 
 			function showAddressList() {
+				$("#address-list").empty();
 				$.ajax({
 					url: "/addresses",
 					type: "GET",
 					dataType: "JSON",
 					success: function (json) {
 						if (json.state === 200) {
-							console.log("doit");
 							let list = json.data;
 							for (let i = 0; i < list.length; ++i) {
 								let tr = `<tr>
@@ -264,26 +263,67 @@
 										<td>#{name}</td>
 										<td>#{address}</td>
 										<td>#{phone}</td>
-										<td><a className="btn btn-xs btn-info"><span className="fa fa-edit"></span> 修改</a>
+										<td><a class="btn btn-xs btn-info" onclick="findByAid(#{aid})"><span class="fa fa-edit"></span> 修改</a>
 										</td>
-										<td><a className="btn btn-xs add-del btn-info"><span
-												className="fa fa-trash-o"></span> 删除</a></td>
-										<td><a className="btn btn-xs add-def btn-default">设为默认</a></td>
+										<td><a class="btn btn-xs add-del btn-info" onclick="deleteByAid(#{aid})"><span
+												class="fa fa-trash-o"></span> 删除</a></td>
+										<td><a onclick="setDefault(#{aid})" style="display:block" class="btn btn-xs add-def btn-default">设为默认</a></td>
 									</tr>`;
 								tr=tr.replace(/#{tag}/g, list[i].tag);
 								tr=tr.replace(/#{name}/g, list[i].name);
 								tr=tr.replace("#{phone}", list[i].phone);
 								tr=tr.replace("#{address}", list[i].address);
+								tr=tr.replace("#{aid}", list[i].aid);
 
 								$("#address-list").append(tr);
 							}
-
-							$(".add-def:eq(0)").hidden;
+							$(".add-def:eq(0)").hide();
 						} else {
 								alert("用户收货地址加载失败加载失败");
 						}
 					}
 				});
+			}
+
+			function findByAid(aid) {
+				window.localStorage.setItem("aid", aid);
+				location.href = "updateAddress.html";
+			}
+
+			function deleteByAid(aid) {
+				$.ajax({
+					url: "/addresses/" + aid + "/delete",
+					type: "POST",
+					dataType: "JSON",
+					success: function(json) {
+						if(json.state === 200){
+							showAddressList();
+						}else{
+							alert("删除收货地址失败");
+						}
+					},
+					error: function(xhr) {
+						alert("删除收货地址时产生未知的异常" + xhr.message);
+					}
+				})
+			}
+
+			function setDefault(aid) {
+				$.ajax({
+					url: "/addresses/" + aid + "/set_default",
+					type: "GET",
+					dataType: "JSON",
+					success: function(json) {
+						if(json.state === 200){
+							showAddressList();
+						}else{
+							alert("设置默认收货地址失败");
+						}
+					},
+					error: function(xhr) {
+						alert("设置默认收货地址时产生未知的异常" + xhr.message);
+					}
+				})
 			}
 		</script>
 	</body>

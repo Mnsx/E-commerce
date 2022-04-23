@@ -1,6 +1,8 @@
 package top.mnsx.store.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import top.mnsx.store.entity.Address;
@@ -28,6 +30,30 @@ public class AddressController extends BaseController{
     public JsonResult<List<Address>> getAddressByUid(HttpSession session) {
         Integer uid = getuidFromSession(session);
         List<Address> data = addressService.getByUid(uid);
+        return new JsonResult<>(OK, data);
+    }
+
+    @GetMapping("/{aid}/set_default")
+    public JsonResult<Void> setDefault(@PathVariable("aid") Integer aid, HttpSession session) {
+        addressService.setDefault(
+                aid,
+                getuidFromSession(session),
+                getUsernameFromSession(session));
+        return new JsonResult<>(OK);
+    }
+
+    @RequestMapping("/{aid}/delete")
+    public JsonResult<Void> delete(@PathVariable("aid") Integer aid, HttpSession session) {
+        addressService.delete(
+                aid,
+                getuidFromSession(session),
+                getUsernameFromSession(session));
+        return new JsonResult<>(OK);
+    }
+
+    @RequestMapping("/findByAid/{aid}")
+    public JsonResult<Address> findByAid(@PathVariable("aid") Integer aid) {
+        Address data = addressService.getByAid(aid);
         return new JsonResult<>(OK, data);
     }
 }
