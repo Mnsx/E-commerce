@@ -323,6 +323,29 @@
 					}
 				});
 			});
+
+			$("#btn-add-to-cart").click(function() {
+				$.ajax({
+					url: "/carts/add_to_cart",
+					type: "POST",
+					data: {
+						"pid": id,
+						"amount": $("#num").val()
+					},
+					dataType: "JSON",
+					success: function(json) {
+						if (json.state == 200) {
+							alert("增加成功！");
+						} else {
+							alert("增加失败！" + json.message);
+						}
+					},
+					error: function(xhr) {
+						alert("您的登录信息已经过期，请重新登录！HTTP响应码：" + xhr.status);
+						location.href = "login.html";
+					}
+				});
+			});
 		</script>
 	</body>
 

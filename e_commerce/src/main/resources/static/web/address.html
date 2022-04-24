@@ -273,7 +273,7 @@
 								tr=tr.replace(/#{name}/g, list[i].name);
 								tr=tr.replace("#{phone}", list[i].phone);
 								tr=tr.replace("#{address}", list[i].address);
-								tr=tr.replace("#{aid}", list[i].aid);
+								tr=tr.replaceAll("#{aid}", list[i].aid);
 
 								$("#address-list").append(tr);
 							}

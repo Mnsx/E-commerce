@@ -290,29 +290,10 @@
 		<script type="text/javascript">
 			let defaultOption = "<option value='0'>--- 请选择 ---</option>";
 			$(document).ready(function(){
-				let aid = window.localStorage.getItem("aid");
-				$.ajax({
-					url: "/addresses/findByAid/" + aid,
-					type: "GET",
-					dataType: "JSON",
-					success: function (json) {
-						if (json.state === 200) {
-							console.log(json.data);
-							document.getElementsByClassName("form-control").item(1).value = json.data.name;
-							$("#province-list").append("<option value='0'>" + json.data.provinceName + "(默认)</option>");
-							$("#city-list").append("<option value='0'>" + json.data.cityName + "(默认)</option>");
-							$("#area-list").append("<option value='0'>" + json.data.areaName + "(默认)</option>");
-							document.getElementsByClassName("form-control").item(5).value = json.data.zip;
-							document.getElementsByClassName("form-control").item(6).value = json.data.address;
-							document.getElementsByClassName("form-control").item(7).value = json.data.phone;
-							document.getElementsByClassName("form-control").item(8).value = json.data.tel;
-							document.getElementsByClassName("form-control").item(9).value = json.data.tag;
-						} else {
-							alert("收货地址数据加载失败");
-						}
-					}
-				});
+				$("#province-list").append(defaultOption);
 				showProvince();
+				$("#city-list").append(defaultOption);
+				$("#area-list").append(defaultOption);
 			})
 
 			$("#province-list").change(function() {
@@ -406,20 +387,20 @@
 
 			$("#btn-add-new-address").click(function(){
 				$.ajax({
-					url: "/addresses/add_new_address",
+					url: "/addresses/update_by_aid/" + window.localStorage.getItem("aid"),
 					type: "POST",
 					data: $("#form-add-new-address").serialize(),
 					dataType: "JSON",
 					success: function(json) {
 						if(json.state === 200){
-							alert("新增收货地址成功");
+							alert("修改收货地址成功");
 							location.href="address.html";
 						} else {
-							alert("新增收货地址失败");
+							alert("修改收货地址失败");
 						}
 					},
 					error: function(xhr) {
-						alert("新增收货地址时产生未知的错误" + xhr.status);
+						alert("修改收货地址时产生未知的错误" + xhr.status);
 					}
 				})
 			})

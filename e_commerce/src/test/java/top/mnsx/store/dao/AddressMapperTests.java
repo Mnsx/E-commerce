@@ -63,4 +63,13 @@ public class AddressMapperTests {
         Address list = addressMapper.findLastModified(10);
         System.out.println(list);
     }
+
+    @Test
+    public void testUpdateAddressByAid() {
+        Address address = new Address();
+        address.setAid(6);
+        address.setName("xiaokaiqi");
+        Integer i = addressMapper.updateAddressByAid(address);
+        System.out.println(i);
+    }
 }

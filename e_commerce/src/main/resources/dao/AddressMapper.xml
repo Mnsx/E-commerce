@@ -56,6 +56,55 @@
         WHERE aid = #{aid}
     </update>
 
+    <update id="updateAddressByAid">
+        UPDATE t_address
+        <set>
+            <if test="address.name != null">
+            name = #{address.name},
+            </if>
+            <if test="address.provinceName != null">
+            province_name = #{address.provinceName},
+            </if>
+            <if test="address.provinceCode != null">
+            province_code = #{address.provinceCode},
+            </if>
+            <if test="address.cityName != null">
+            city_name = #{address.cityName},
+            </if>
+            <if test="address.cityCode != null">
+            city_code = #{address.cityCode},
+            </if>
+            <if test="address.areaName != null">
+            area_name = #{address.areaName},
+            </if>
+            <if test="address.areaCode != null">
+            area_code = #{address.areaCode},
+            </if>
+            <if test="address.zip != null">
+            zip = #{address.zip},
+            </if>
+            <if test="address.address != null">
+            address = #{address.address},
+            </if>
+            <if test="address.phone != null">
+            phone = #{address.phone},
+            </if>
+            <if test="address.tel != null">
+            tel = #{address.tel},
+            </if>
+            <if test="address.tag != null">
+            tag = #{address.tag}
+            </if>
+            <if test="address.modifiedUser != null">
+            modified_user = #{address.modifiedUser}
+            </if>
+            <if test="address.modifiedTime != null">
+            modified_time = #{address.modifiedTime}
+            </if>
+        </set>
+        WHERE aid = #{address.aid}
+    </update>
+
     <select id="findByAid" resultMap="AddressEntityMap">
         SELECT * FROM t_address WHERE aid = #{aid}
     </select>

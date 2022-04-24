@@ -44,4 +44,12 @@ public class AddressServiceTests {
         Address address = addressService.getByAid(7);
         System.out.println(address);
     }
+
+    @Test
+    public void testUpdateAddressByAid() {
+        Address address = new Address();
+        address.setAid(6);
+        address.setName("肖恺琦");
+        addressService.updateAddressByAid(address, "mnsx");
+    }
 }

@@ -51,9 +51,17 @@ public class AddressController extends BaseController{
         return new JsonResult<>(OK);
     }
 
-    @RequestMapping("/findByAid/{aid}")
+    @RequestMapping("/find_by_aid/{aid}")
     public JsonResult<Address> findByAid(@PathVariable("aid") Integer aid) {
         Address data = addressService.getByAid(aid);
         return new JsonResult<>(OK, data);
+    }
+
+    @RequestMapping("/update_by_aid/{aid}")
+    public JsonResult<Void> updateByAid(@PathVariable("aid") Integer aid, Address address, HttpSession session) {
+        String username = getUsernameFromSession(session);
+        address.setAid(aid);
+        addressService.updateAddressByAid(address, username);
+        return new JsonResult<>(OK);
     }
 }

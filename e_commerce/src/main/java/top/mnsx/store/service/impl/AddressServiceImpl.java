@@ -146,4 +146,16 @@ public class AddressServiceImpl implements IAddressService {
 
         return result;
     }
+
+    @Override
+    public void updateAddressByAid(Address address, String username) {
+        address.setUid(null);
+        address.setIsDefault(null);
+        address.setCreatedUser(null);
+        address.setCreatedTime(null);
+        Integer rows = addressMapper.updateAddressByAid(address);
+        if (rows != 1) {
+            throw new UpdateException("更新地址时产生未知异常");
+        }
+    }
 }
