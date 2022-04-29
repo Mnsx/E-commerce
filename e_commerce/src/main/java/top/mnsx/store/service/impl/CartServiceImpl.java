@@ -7,6 +7,8 @@ import top.mnsx.store.dao.ProductMapper;
 import top.mnsx.store.entity.Cart;
 import top.mnsx.store.entity.Product;
 import top.mnsx.store.service.ICartService;
+import top.mnsx.store.service.ex.AccessDeniedException;
+import top.mnsx.store.service.ex.CartNotFoundException;
 import top.mnsx.store.service.ex.InsertException;
 import top.mnsx.store.service.ex.UpdateException;
 import top.mnsx.store.vo.CartVO;
@@ -15,7 +17,7 @@ import java.util.Date;
 import java.util.List;
 
 @Service
-public class ICartServiceImpl implements ICartService {
+public class CartServiceImpl implements ICartService {
     @Autowired
     private CartMapper cartMapper;
     @Autowired
@@ -50,5 +52,37 @@ public class ICartServiceImpl implements ICartService {
     @Override
     public List<CartVO> getVOByUid(Integer uid) {
         return cartMapper.findByUid(uid);
+    }
+
+    @Override
+    public Integer addNum(Integer cid, Integer uid, String username) {
+        Cart result = cartMapper.findByCid(cid);
+
+        if (result == null) {
+            throw new CartNotFoundException("尝试访问的购物车数据不存在");
+        }
+
+        if (!result.getUid().equals(uid)) {
+            throw new AccessDeniedException("非法访问");
+        }
+
+        Integer num = result.getNum() + 1;
+
+        Date now = new Date();
+
+        Integer rows = cartMapper.updateNumByCid(cid, num, username, now);
+        if (rows != 1) {
+            throw new InsertException("修改商品数量时出现未知错误，请联系系统管理员");
+        }
+
+        return num;
+    }
+
+    @Override
+    public List<CartVO> getVOByCids(Integer uid, Integer[] cids) {
+        List<CartVO> list = cartMapper.findVOByCids(cids);
+
+        list.removeIf(cart -> !cart.getUid().equals(uid));
+        return list;
     }
 }

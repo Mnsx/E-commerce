@@ -23,4 +23,13 @@ public class CartServiceTests {
             System.out.println(e.getMessage());
         }
     }
+
+    @Test
+    public void addNum() {
+        Integer cid = 6;
+        Integer uid = 9;
+        String username = "Mnsx_x";
+        Integer num = cartService.addNum(cid, uid, username);
+        System.out.println(num);
+    }
 }

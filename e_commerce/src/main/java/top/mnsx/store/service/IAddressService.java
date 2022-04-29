@@ -18,4 +18,6 @@ public interface IAddressService {
     Address getByAid(Integer aid);
 
     void updateAddressByAid(Address address, String username);
+
+    Address getByAid(Integer aid, Integer uid);
 }

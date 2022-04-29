@@ -38,4 +38,11 @@ public class CartMapperTests {
     public void testFindByUid() {
         System.out.println(cartMapper.findByUid(10));
     }
+
+    @Test
+    public void findByCid() {
+        Integer cid = 6;
+        Cart result = cartMapper.findByCid(cid);
+        System.out.println(result);
+    }
 }

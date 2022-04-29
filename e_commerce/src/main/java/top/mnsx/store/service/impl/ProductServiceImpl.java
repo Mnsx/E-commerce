@@ -10,7 +10,7 @@ import top.mnsx.store.service.ex.ProductNotFoundException;
 import java.util.List;
 
 @Service
-public class IProductServiceImpl implements IProductService {
+public class ProductServiceImpl implements IProductService {
     @Autowired
     private ProductMapper productMapper;
 
